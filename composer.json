@@ -1,0 +1,19 @@
+{
+  "name": "betalabs/engine-sdk-freight",
+  "description": "Freight SDK for internal apps Engine",
+  "authors": [
+    {
+      "name": "Betalabs Tecnologia LTDA.",
+      "email": "betalabs@betalabs.com.br"
+    }
+  ],
+  "require": {
+    "php": ">=7.1",
+    "illuminate/http": ">=5.7"
+  },
+  "autoload": {
+    "psr-4": {
+      "Betalabs\\Engine\\": "src/"
+    }
+  }
+}
