@@ -3,7 +3,7 @@
 namespace Betalabs\Engine\Contracts;
 
 
-class AbstractTransformer
+abstract class AbstractTransformer
 {
     protected function adaptDefaultTransformWithSelectedFields($data = []) {
         return [];
