@@ -2,8 +2,9 @@
 
 namespace Betalabs\Engine\Contracts;
 
+use Illuminate\Support\Collection;
 
-abstract class ResponseFormatter
+interface ResponseFormatter
 {
-    //
+    public function collection(Collection $collection, AbstractTransformer $transformer);
 }

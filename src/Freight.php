@@ -2,13 +2,11 @@
 
 namespace Betalabs\Engine;
 
-use Betalabs\Engine\Exceptions\AttributesDoesNotExistException;
 use Betalabs\Engine\Inbound\InboundRequest;
 use Betalabs\Engine\Outbound\OutboundTransformer;
 use Betalabs\Engine\Contracts\ZipCodeRangeCalculator;
 use Betalabs\Engine\Contracts\ResponseTrait;
 use Betalabs\Engine\Contracts\ZipCodeRangeTransformer;
-use Betalabs\Engine\Contracts\ResponseFormatter;
 
 abstract class Freight
 {
