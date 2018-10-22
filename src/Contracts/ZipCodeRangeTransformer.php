@@ -3,7 +3,9 @@
 namespace Betalabs\Engine\Contracts;
 
 
-interface ZipCodeRangeTransformer
+abstract class ZipCodeRangeTransformer extends AbstractTransformer
 {
-    public function setCalculated(bool $calculated);
+    public function setCalculated(bool $calculated) {
+        //
+    }
 }
