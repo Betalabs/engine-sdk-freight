@@ -2,8 +2,9 @@
 
 namespace Betalabs\Engine\Contracts;
 
+use Illuminate\Database\Eloquent\Model;
 
-interface Item
+abstract class Item extends Model
 {
-
+    //
 }

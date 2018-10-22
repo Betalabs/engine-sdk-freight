@@ -3,8 +3,9 @@
 
 namespace Betalabs\Engine\Contracts;
 
+use Illuminate\Database\Eloquent\Model;
 
-interface ZipCodeRange
+abstract class ZipCodeRange extends Model
 {
-
+    //
 }
