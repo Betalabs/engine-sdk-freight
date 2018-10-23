@@ -3,10 +3,7 @@
 namespace Betalabs\Engine;
 
 use Betalabs\Engine\Inbound\InboundRequest;
-use Betalabs\Engine\Outbound\OutboundTransformer;
-use Betalabs\Engine\Contracts\ZipCodeRangeCalculator;
 use Betalabs\Engine\Contracts\ResponseTrait;
-use Betalabs\Engine\Contracts\ZipCodeRangeTransformer;
 
 abstract class Freight
 {
@@ -30,8 +27,8 @@ abstract class Freight
      */
     public function __construct(
         InboundRequest $inboundRequest,
-        ZipCodeRangeCalculator $calculator,
-        ZipCodeRangeTransformer $zipCodeRangeTransformer
+        $calculator,
+        $zipCodeRangeTransformer
     ) {
         $this->calculator = $calculator;
         $this->zipCodeRangeTransformer = $zipCodeRangeTransformer;
@@ -73,9 +70,9 @@ abstract class Freight
      * Set outbound response adapter for calculated freight.
      * If not set, will use default response.
      *
-     * @param \Betalabs\Engine\Outbound\OutboundTransformer $outboundAdapter
+     * @param \Betalabs\Engine\Contracts\AbstractTransformer $outboundAdapter
      */
-    public function setOutboundAdapter(OutboundTransformer $outboundAdapter) {
+    public function setOutboundAdapter($outboundAdapter) {
         $this->outboundAdapter = $outboundAdapter;
     }
 }
