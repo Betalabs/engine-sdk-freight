@@ -1,6 +1,8 @@
 {
   "name": "betalabs/engine-sdk-freight",
   "description": "Freight SDK for internal apps Engine",
+  "keywords": ["api", "laravel", "betalabs", "sdk"],
+  "license": "MIT",
   "authors": [
     {
       "name": "Betalabs Tecnologia LTDA.",
