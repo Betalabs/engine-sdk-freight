@@ -2,13 +2,11 @@
 
 namespace Betalabs\Engine;
 
+use Betalabs\Engine\Contracts\ResponseFormatter;
 use Betalabs\Engine\Inbound\InboundRequest;
-use Betalabs\Engine\Contracts\ResponseTrait;
 
 abstract class Freight
 {
-    use ResponseTrait;
-
     /** @var \Betalabs\Engine\Contracts\ZipCodeRangeCalculator */
     private $calculator;
     /** @var \Betalabs\Engine\Inbound\InboundRequest */
@@ -74,5 +72,14 @@ abstract class Freight
      */
     public function setOutboundAdapter($outboundAdapter) {
         $this->outboundAdapter = $outboundAdapter;
+    }
+
+    /**
+     * Resolve ResponseFormatter
+     *
+     * @return mixed
+     */
+    private function respond() {
+        return resolve(ResponseFormatter::class);
     }
 }
