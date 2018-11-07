@@ -2,8 +2,9 @@
 
 namespace Betalabs\Engine;
 
-use Betalabs\Engine\Contracts\ResponseFormatter;
+use Betalabs\Engine\Helpers\ResponseFormatter;
 use Betalabs\Engine\Inbound\InboundRequest;
+use League\Fractal\TransformerAbstract;
 
 abstract class Freight
 {
@@ -36,7 +37,7 @@ abstract class Freight
     /**
      * Return calculated freight according outbound and inbound response.
      *
-     * @return \Betalabs\Engine\Contracts\ResponseFormatter
+     * @return \Illuminate\Http\Response
      * @throws \Betalabs\Engine\Exceptions\AttributesDoesNotExistException
      */
     public function calculateFreight() {
@@ -57,7 +58,6 @@ abstract class Freight
                 $this->outboundAdapter
             );
         }
-
         return $this->respond()->collection(
             $this->calculator->calculate(),
             $this->zipCodeRangeTransformer->setCalculated(true)
@@ -68,9 +68,9 @@ abstract class Freight
      * Set outbound response adapter for calculated freight.
      * If not set, will use default response.
      *
-     * @param \Betalabs\Engine\Contracts\AbstractTransformer $outboundAdapter
+     * @param \League\Fractal\TransformerAbstract $outboundAdapter
      */
-    public function setOutboundAdapter($outboundAdapter) {
+    public function setOutboundAdapter(TransformerAbstract $outboundAdapter) {
         $this->outboundAdapter = $outboundAdapter;
     }
 
@@ -79,7 +79,8 @@ abstract class Freight
      *
      * @return mixed
      */
-    private function respond() {
-        return resolve(ResponseFormatter::class);
+    private function respond(): ResponseFormatter
+    {
+        return new ResponseFormatter;
     }
 }

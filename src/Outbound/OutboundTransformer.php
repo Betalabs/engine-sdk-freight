@@ -2,10 +2,9 @@
 
 namespace Betalabs\Engine\Outbound;
 
+use League\Fractal\TransformerAbstract;
 
-use Betalabs\Engine\Contracts\AbstractTransformer;
-
-abstract class OutboundTransformer extends AbstractTransformer
+abstract class OutboundTransformer extends TransformerAbstract
 {
     public abstract function transform(\Betalabs\Engine\Contracts\ZipCodeRange $model);
 }
