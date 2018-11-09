@@ -2,76 +2,56 @@
 
 namespace Betalabs\Engine;
 
+use Betalabs\Engine\Contracts\ZipCodeRangeCalculator;
 use Betalabs\Engine\Helpers\ResponseFormatter;
-use Betalabs\Engine\Inbound\InboundRequest;
-use Betalabs\Engine\Outbound\OutboundTransformer;
+use Illuminate\Http\Request;
 
 abstract class Freight
 {
-    /** @var \Betalabs\Engine\Contracts\ZipCodeRangeCalculator */
-    private $calculator;
     /** @var \Betalabs\Engine\Inbound\InboundRequest */
-    private $inboundRequest;
+    protected $inboundRequest;
     /** @var \Betalabs\Engine\Outbound\OutboundTransformer */
-    private $outboundAdapter;
-    /** @var \Betalabs\Engine\Contracts\ZipCodeRangeTransformer */
-    private $zipCodeRangeTransformer;
+    protected $outboundAdapter;
 
-    /**
-     * Freight constructor.
-     *
-     * @param \Betalabs\Engine\Inbound\InboundRequest $inboundRequest
-     * @param \Betalabs\Engine\Contracts\ZipCodeRangeCalculator $calculator
-     * @param \Betalabs\Engine\Contracts\ZipCodeRangeTransformer $zipCodeRangeTransformer
-     */
-    public function __construct(
-        InboundRequest $inboundRequest,
-        $calculator,
-        $zipCodeRangeTransformer
-    ) {
-        $this->calculator = $calculator;
-        $this->zipCodeRangeTransformer = $zipCodeRangeTransformer;
-        $this->inboundRequest = $inboundRequest;
-    }
+    /** App must implement Outbound Adapter */
+    abstract function setOutboundAdapter();
+    /** App must implement Inbound Adapter */
+    abstract function setInboundRequest();
 
     /**
      * Return calculated freight according outbound and inbound response.
      *
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
-     * @throws \Betalabs\Engine\Exceptions\AttributesDoesNotExistException
+     * @throws Exceptions\AttributesDoesNotExistException
      */
-    public function calculateFreight() {
-        $this->inboundRequest->mergeInboundRequest();
+    public function calculate(
+        Request $request
+    ) {
+        $calculator = resolve(ZipCodeRangeCalculator::class);
+        $this->setOutboundAdapter();
+        $this->setInboundRequest();
+
+        $this->inboundRequest->transformInboundRequest();
 
         $items = $this->inboundRequest->input('items');
         $quantities = $this->inboundRequest->input('quantities');
         $zipCode = $this->inboundRequest->input('zip_code');
 
-        $this->calculator
+        $calculator
             ->setZipCode($zipCode)
             ->setItemsIds($items)
             ->setQuantities($quantities);
 
         if (null !== $this->outboundAdapter) {
             return $this->respond()->collection(
-                $this->calculator->calculate(),
+                $calculator->calculate(),
                 $this->outboundAdapter
             );
         }
-        return $this->respond()->collection(
-            $this->calculator->calculate(),
-            $this->zipCodeRangeTransformer->setCalculated(true)
-        );
-    }
 
-    /**
-     * Set outbound response adapter for calculated freight.
-     * If not set, will use default response.
-     *
-     * @param \Betalabs\Engine\Outbound\OutboundTransformer $outboundAdapter
-     */
-    public function setOutboundAdapter(OutboundTransformer $outboundAdapter) {
-        $this->outboundAdapter = $outboundAdapter;
+        return $this->respond()->noContent();
     }
 
     /**
