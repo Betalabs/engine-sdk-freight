@@ -4,7 +4,7 @@ namespace Betalabs\Engine;
 
 use Betalabs\Engine\Helpers\ResponseFormatter;
 use Betalabs\Engine\Inbound\InboundRequest;
-use League\Fractal\TransformerAbstract;
+use Betalabs\Engine\Outbound\OutboundTransformer;
 
 abstract class Freight
 {
@@ -68,9 +68,9 @@ abstract class Freight
      * Set outbound response adapter for calculated freight.
      * If not set, will use default response.
      *
-     * @param \League\Fractal\TransformerAbstract $outboundAdapter
+     * @param \Betalabs\Engine\Outbound\OutboundTransformer $outboundAdapter
      */
-    public function setOutboundAdapter(TransformerAbstract $outboundAdapter) {
+    public function setOutboundAdapter(OutboundTransformer $outboundAdapter) {
         $this->outboundAdapter = $outboundAdapter;
     }
 
