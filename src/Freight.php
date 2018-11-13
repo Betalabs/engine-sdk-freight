@@ -19,19 +19,26 @@ abstract class Freight
     abstract function setInboundRequest();
 
     /**
-     * Return calculated freight according outbound and inbound response.
+     * App must convert POST input data and
+     * set items, volumes and quantity attributes
      *
      * @param \Illuminate\Http\Request $request
+     */
+    abstract function convertInputData(Request $request);
+
+    /**
+     * Return calculated freight according outbound and inbound response.
+     *
+     * @param \Illuminate\Http\Request $originalRequest
      *
      * @return \Illuminate\Http\Response
      * @throws Exceptions\AttributesDoesNotExistException
      */
-    public function calculate(
-        Request $request
-    ) {
+    public function calculate(Request $originalRequest) {
         $calculator = resolve(ZipCodeRangeCalculator::class);
         $this->setOutboundAdapter();
         $this->setInboundRequest();
+        $this->convertInputData($originalRequest);
 
         $this->inboundRequest->transformInboundRequest();
 
