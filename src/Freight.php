@@ -4,7 +4,6 @@ namespace Betalabs\Engine;
 
 use Betalabs\Engine\Contracts\ZipCodeRangeCalculator;
 use Betalabs\Engine\Helpers\ResponseFormatter;
-use Betalabs\Engine\Inbound\InboundRequest;
 use Illuminate\Http\Request;
 
 abstract class Freight
