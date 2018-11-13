@@ -5,7 +5,7 @@ namespace Betalabs\Engine\Inbound;
 use Betalabs\Engine\Exceptions\AttributesDoesNotExistException;
 use Illuminate\Http\Request;
 
-class InboundRequest extends Request
+abstract class InboundRequest extends Request
 {
     /** @var array */
     protected $items = [];
@@ -15,17 +15,6 @@ class InboundRequest extends Request
     protected $zip_code;
     /** @var array */
     protected $originalData;
-
-    /**
-     * InboundRequest constructor.
-     *
-     * @param array $originalData
-     */
-    public function __construct(array $originalData)
-    {
-        parent::__construct();
-        $this->originalData = $originalData;
-    }
 
     /**
      * Merge marketplace inbound request into laravel request for Engine Freight Calculator
@@ -46,5 +35,13 @@ class InboundRequest extends Request
             'quantities' => $this->quantities,
             'zip_code' => $this->zip_code
         ]);
+    }
+
+    /**
+     * @param array $originalData
+     */
+    public function setOriginalData(array $originalData): void
+    {
+        $this->originalData = $originalData;
     }
 }

@@ -16,7 +16,7 @@ abstract class Freight
 
     /** App must implement Outbound Adapter */
     abstract function setOutboundAdapter();
-    /** App must implement Inbound Adapter */
+    /** App must implement Inbound Request */
     abstract function setInboundRequest();
 
     /**
@@ -31,7 +31,7 @@ abstract class Freight
         $calculator = resolve(ZipCodeRangeCalculator::class);
         $this->setOutboundAdapter();
         $this->setInboundRequest();
-        $this->inboundRequest = new InboundRequest($originalRequest->all());
+        $this->inboundRequest->setOriginalData($originalRequest->all());
         $this->inboundRequest->transformInboundRequest();
 
         $items = $this->inboundRequest->input('items');
