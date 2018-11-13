@@ -4,6 +4,7 @@ namespace Betalabs\Engine;
 
 use Betalabs\Engine\Contracts\ZipCodeRangeCalculator;
 use Betalabs\Engine\Helpers\ResponseFormatter;
+use Betalabs\Engine\Inbound\InboundRequest;
 use Illuminate\Http\Request;
 
 abstract class Freight
@@ -19,14 +20,6 @@ abstract class Freight
     abstract function setInboundRequest();
 
     /**
-     * App must convert POST input data and
-     * set items, volumes and quantity attributes
-     *
-     * @param \Illuminate\Http\Request $request
-     */
-    abstract function convertInputData(Request $request);
-
-    /**
      * Return calculated freight according outbound and inbound response.
      *
      * @param \Illuminate\Http\Request $originalRequest
@@ -38,8 +31,7 @@ abstract class Freight
         $calculator = resolve(ZipCodeRangeCalculator::class);
         $this->setOutboundAdapter();
         $this->setInboundRequest();
-        $this->convertInputData($originalRequest);
-
+        $this->inboundRequest = new InboundRequest($originalRequest->all());
         $this->inboundRequest->transformInboundRequest();
 
         $items = $this->inboundRequest->input('items');
