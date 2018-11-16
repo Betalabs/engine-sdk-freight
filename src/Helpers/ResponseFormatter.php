@@ -45,9 +45,10 @@ class ResponseFormatter extends Response
     public function __construct(
         $content = '',
         $status = 200,
-        $headers = array(),
-        Manager $manager = null
+        $headers = array()
     ) {
+
+        $manager = resolve(Manager::class);
 
         parent::__construct($content, $status, $headers);
 
