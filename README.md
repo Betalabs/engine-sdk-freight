@@ -12,5 +12,4 @@ Your internal app need a class that extends:
 ```php
 Betalabs\Engine\Freight::class
 ```
-And in constructor of this class, you need to set the Outbound adapter (an AbstractTransformer)
-and the Inbound adapter (an InboundRequest).
+And you need to implement outbound and inbound adapters, resolving these attributes in superclass.
