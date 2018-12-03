@@ -39,6 +39,7 @@ abstract class Freight
         $calculator
             ->setZipCode($zipCode)
             ->setItemsIds($items)
+            ->setChannels([2])
             ->setQuantities($quantities);
 
         if (null !== $this->outboundAdapter) {
