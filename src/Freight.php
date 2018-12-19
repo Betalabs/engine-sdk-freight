@@ -36,7 +36,7 @@ abstract class Freight
         $this->inboundRequest->setOriginalData($originalData);
         $this->inboundRequest->transformInboundRequest();
 
-        $items = $item::whereIn('alias_id', $this->inboundRequest->input('items'))->get();
+        $items = $item::find($this->inboundRequest->input('items'));
         $quantities = $this->inboundRequest->input('quantities');
         $zipCode = $this->inboundRequest->input('zip_code');
 
