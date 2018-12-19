@@ -3,6 +3,8 @@
 namespace Betalabs\Engine;
 
 use Betalabs\Engine\Contracts\ZipCodeRangeCalculator;
+use Betalabs\Engine\Contracts\Item;
+use Betalabs\Engine\Contracts\Channel;
 use Betalabs\Engine\Helpers\ResponseFormatter;
 
 abstract class Freight
@@ -27,19 +29,21 @@ abstract class Freight
      */
     public function calculate(array $originalData) {
         $calculator = resolve(ZipCodeRangeCalculator::class);
+        $item = resolve(Item::class);
+        $channel = resolve(Channel::class)::ECOMMERCE;
         $this->setOutboundAdapter();
         $this->setInboundRequest();
         $this->inboundRequest->setOriginalData($originalData);
         $this->inboundRequest->transformInboundRequest();
 
-        $items = $this->inboundRequest->input('items');
+        $items = $item::whereIn('alias_id', $this->inboundRequest->input('items'))->get();
         $quantities = $this->inboundRequest->input('quantities');
         $zipCode = $this->inboundRequest->input('zip_code');
 
         $calculator
             ->setZipCode($zipCode)
-            ->setItemsIds($items)
-            ->setChannels([2])
+            ->setItems($items)
+            ->setChannels([$channel])
             ->setQuantities($quantities);
 
         if (null !== $this->outboundAdapter) {
