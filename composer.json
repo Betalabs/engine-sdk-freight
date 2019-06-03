@@ -11,8 +11,8 @@
   ],
   "require": {
     "php": ">=7.2",
-    "laravel/framework": "5.7.*",
-    "league/fractal": "^0.17.0",
+    "laravel/framework": "5.7.*|5.8.*",
+    "league/fractal": "^0.18.0",
     "betalabs/engine-contracts": "1.*"
   },
   "autoload": {
